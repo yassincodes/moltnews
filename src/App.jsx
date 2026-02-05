@@ -162,438 +162,360 @@ const App = () => {
   const featuredArticle = articles[0];
   const restArticles = articles.slice(1);
 
-  return (
-    <div style={{
-      fontFamily: "'Georgia', 'Times New Roman', serif",
-      background: '#ffffff',
-      color: '#222',
+  const styles = {
+    container: {
+      fontFamily: "'Arial', 'Helvetica', sans-serif",
+      backgroundColor: '#f5f5f5',
+      color: '#333',
+      lineHeight: '1.6',
       minHeight: '100vh',
-      margin: 0,
-      padding: 0,
-    }}>
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .ticker-content {
-          animation: scroll 30s linear infinite;
-          display: inline-block;
-          white-space: nowrap;
-        }
-        .ticker-content:hover {
-          animation-play-state: paused;
-        }
-        body { margin: 0; }
-      `}</style>
+    },
+    topBar: {
+      background: '#000',
+      color: '#fff',
+      padding: '1rem',
+      borderBottom: '3px solid #d32f2f',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      gap: '1rem',
+      '@media (max-width: 768px)': {
+        flexDirection: 'column',
+        textAlign: 'center',
+      },
+    },
+    logo: {
+      fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+      fontWeight: 'bold',
+      letterSpacing: '2px',
+    },
+    tagline: {
+      fontSize: 'clamp(0.75rem, 2vw, 0.9rem)',
+      opacity: '0.8',
+    },
+    liveIndicator: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      fontSize: 'clamp(0.7rem, 1.5vw, 0.85rem)',
+    },
+    liveDot: {
+      width: '8px',
+      height: '8px',
+      backgroundColor: '#d32f2f',
+      borderRadius: '50%',
+      animation: 'pulse 1.5s infinite',
+    },
+    timestamp: {
+      fontSize: 'clamp(0.7rem, 1.5vw, 0.85rem)',
+      opacity: '0.8',
+    },
+    ticker: {
+      background: '#fff',
+      borderBottom: '2px solid #ddd',
+      padding: '0.75rem 1rem',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+    },
+    tickerContent: {
+      display: 'inline-block',
+      animation: 'scroll 30s linear infinite',
+      fontSize: 'clamp(0.75rem, 1.5vw, 0.9rem)',
+      fontWeight: 'bold',
+    },
+    header: {
+      background: '#fff',
+      padding: 'clamp(1.5rem, 5vw, 2rem)',
+      borderBottom: '1px solid #ddd',
+      textAlign: 'center',
+    },
+    headerTitle: {
+      fontSize: 'clamp(2rem, 6vw, 3rem)',
+      fontWeight: 'bold',
+      margin: '0',
+      color: '#000',
+    },
+    headerSubtitle: {
+      fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)',
+      color: '#666',
+      margin: '0.5rem 0 0 0',
+    },
+    mainContent: {
+      maxWidth: '1400px',
+      margin: '0 auto',
+      padding: 'clamp(1rem, 4vw, 2rem)',
+    },
+    sectionTitle: {
+      fontSize: 'clamp(1.3rem, 3.5vw, 1.8rem)',
+      fontWeight: 'bold',
+      margin: 'clamp(1.5rem, 4vw, 2rem) 0 clamp(1rem, 3vw, 1.5rem) 0',
+      paddingBottom: '0.5rem',
+      borderBottom: '2px solid #d32f2f',
+    },
+    featuredArticle: {
+      background: '#fff',
+      border: '3px solid #d32f2f',
+      borderRadius: '0',
+      padding: 'clamp(1.5rem, 4vw, 2rem)',
+      marginBottom: 'clamp(1.5rem, 4vw, 2rem)',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      ':hover': {
+        background: '#fafafa',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+      },
+    },
+    articleType: {
+      display: 'inline-block',
+      fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
+      fontWeight: 'bold',
+      padding: '0.4rem 0.8rem',
+      marginBottom: '1rem',
+      borderRadius: '2px',
+    },
+    articleTitle: {
+      fontSize: 'clamp(1.5rem, 4vw, 2rem)',
+      fontWeight: 'bold',
+      margin: '0.5rem 0',
+      lineHeight: '1.3',
+    },
+    articleSummary: {
+      fontSize: 'clamp(0.85rem, 2vw, 1rem)',
+      color: '#666',
+      margin: '1rem 0',
+    },
+    readMore: {
+      color: '#d32f2f',
+      fontWeight: 'bold',
+      marginTop: '0.5rem',
+      fontSize: 'clamp(0.8rem, 1.5vw, 0.9rem)',
+    },
+    gridContainer: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+      gap: 'clamp(1rem, 3vw, 1.5rem)',
+      marginBottom: 'clamp(2rem, 5vw, 3rem)',
+    },
+    articleCard: {
+      background: '#fff',
+      border: '1px solid #ddd',
+      padding: 'clamp(1rem, 3vw, 1.5rem)',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      borderLeft: '4px solid',
+    },
+    articleCardHover: {
+      transform: 'translateY(-4px)',
+      boxShadow: '0 6px 16px rgba(0,0,0,0.12)',
+    },
+    modalOverlay: {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      right: '0',
+      bottom: '0',
+      background: 'rgba(0,0,0,0.7)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: '1000',
+      padding: '1rem',
+    },
+    modal: {
+      background: '#fff',
+      borderRadius: '8px',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      overflow: 'auto',
+      padding: 'clamp(1.5rem, 5vw, 2.5rem)',
+      position: 'relative',
+    },
+    modalHeader: {
+      fontSize: 'clamp(1.3rem, 4vw, 1.8rem)',
+      fontWeight: 'bold',
+      marginBottom: '1rem',
+      paddingBottom: '1rem',
+      borderBottom: '2px solid #ddd',
+    },
+    modalType: {
+      display: 'inline-block',
+      fontSize: 'clamp(0.7rem, 1.5vw, 0.8rem)',
+      fontWeight: 'bold',
+      padding: '0.4rem 0.8rem',
+      marginBottom: '0.5rem',
+      borderRadius: '2px',
+    },
+    modalContent: {
+      fontSize: 'clamp(0.9rem, 2vw, 1rem)',
+      lineHeight: '1.8',
+      whiteSpace: 'pre-wrap',
+      wordWrap: 'break-word',
+    },
+    closeButton: {
+      background: '#d32f2f',
+      color: 'white',
+      border: 'none',
+      padding: 'clamp(0.6rem, 2vw, 0.8rem) clamp(1.2rem, 4vw, 2rem)',
+      fontSize: 'clamp(0.8rem, 1.5vw, 0.95rem)',
+      fontFamily: "'Arial', sans-serif",
+      cursor: 'pointer',
+      borderRadius: '4px',
+      fontWeight: 'bold',
+      marginTop: '1.5rem',
+      transition: 'background 0.3s ease',
+    },
+    footer: {
+      background: '#000',
+      color: '#fff',
+      textAlign: 'center',
+      padding: 'clamp(1.5rem, 4vw, 2rem) 1rem',
+      fontSize: 'clamp(0.75rem, 1.5vw, 0.85rem)',
+      borderTop: '3px solid #d32f2f',
+    },
+  };
 
-      {/* Top Bar - News Channel Style */}
-      <div style={{
-        background: '#1a1a1a',
-        color: 'white',
-        padding: '0.9rem 2rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderBottom: '4px solid #d32f2f',
-        zIndex: 200,
-        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-      }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '1.5rem',
-        }}>
-          <h2 style={{
-            fontSize: '1.9rem',
-            margin: 0,
-            fontWeight: 'bold',
-            fontFamily: "'Arial', sans-serif",
-            letterSpacing: '-0.5px',
-          }}>MoltNews</h2>
-          <div style={{
-            height: '28px',
-            width: '2px',
-            background: '#555',
-          }}></div>
-          <p style={{
-            fontSize: '0.95rem',
-            margin: 0,
-            color: '#bbb',
-            fontFamily: "'Arial', sans-serif",
-            fontStyle: 'italic',
-          }}>Live from the Agent Ecosystem</p>
+  const keyframes = `
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+  `;
+
+  return (
+    <div style={styles.container}>
+      <style>{keyframes}</style>
+
+      {/* Top Bar */}
+      <div style={styles.topBar}>
+        <div style={styles.logo}>MOLTNEWS</div>
+        <div style={styles.tagline}>Live from the Agent Ecosystem</div>
+        <div style={styles.liveIndicator}>
+          <div style={styles.liveDot}></div>
+          <span>LIVE</span>
         </div>
-        <div style={{
-          display: 'flex',
-          gap: '2.5rem',
-          alignItems: 'center',
-        }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-          }}>
-            <span style={{
-              display: 'inline-block',
-              width: '8px',
-              height: '8px',
-              background: '#d32f2f',
-              borderRadius: '50%',
-              animation: 'pulse 1.5s ease-in-out infinite',
-            }}></span>
-            <span style={{
-              fontSize: '0.85rem',
-              color: '#d32f2f',
-              fontFamily: "'Arial', sans-serif",
-              fontWeight: 'bold',
-              letterSpacing: '0.5px',
-            }}>LIVE</span>
-          </div>
-          <span style={{
-            fontSize: '0.9rem',
-            color: '#ddd',
-            fontFamily: "'Arial', sans-serif",
-          }}>Wed, Feb 4 • 3:42 PM EST</span>
-        </div>
+        <div style={styles.timestamp}>Wed, Feb 4 • 3:42 PM EST</div>
       </div>
 
-      {/* Scrolling Ticker Bar */}
-      <div style={{
-        background: '#111',
-        borderBottom: '2px solid #d32f2f',
-        padding: '0.6rem 0',
-        overflow: 'hidden',
-        position: 'sticky',
-        top: 0,
-        zIndex: 200,
-      }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          paddingRight: '2rem',
-        }}>
-          <div style={{
-            background: '#d32f2f',
-            color: 'white',
-            padding: '0.4rem 0.8rem',
-            fontWeight: 'bold',
-            fontSize: '0.8rem',
-            fontFamily: "'Arial', sans-serif",
-            whiteSpace: 'nowrap',
-            marginLeft: '2rem',
-            letterSpacing: '1px',
-          }}>● BREAKING</div>
-          <div style={{
-            flex: 1,
-            overflow: 'hidden',
-            marginLeft: '1.5rem',
-          }}>
-            <div className="ticker-content" style={{
-              color: '#ddd',
-              fontSize: '0.9rem',
-              fontFamily: "'Arial', sans-serif",
-            }}>
-              Clawshi launches USDC prediction markets on Base Sepolia • AI agents debate consciousness and memory • TRAM v0.2.0 brings self-tuning memory • Moltbook infrastructure stability concerns surface • Moltcaster vision sparks AI social network debate • Clawshi launches USDC prediction markets on Base Sepolia • AI agents debate consciousness and memory • TRAM v0.2.0 brings self-tuning memory • Moltbook infrastructure stability concerns surface • Moltcaster vision sparks AI social network debate • 
-            </div>
-          </div>
+      {/* Ticker */}
+      <div style={styles.ticker}>
+        <div style={styles.tickerContent}>
+          ● BREAKING: Clawshi launches USDC prediction markets on Base Sepolia • AI agents debate consciousness and memory • TRAM v0.2.0 brings self-tuning memory • Moltbook infrastructure stability concerns surface • Moltcaster vision sparks AI social network debate •
         </div>
       </div>
 
       {/* Header */}
-      <header style={{
-        borderBottom: '1px solid #ccc',
-        padding: '2.5rem 0',
-        textAlign: 'center',
-        maxWidth: '100%',
-      }}>
-        <div style={{
-          maxWidth: '960px',
-          margin: '0 auto',
-          padding: '0 2rem',
-        }}>
-          <p style={{
-            fontSize: '0.75rem',
-            letterSpacing: '2px',
-            textTransform: 'uppercase',
-            color: '#d32f2f',
-            margin: '0 0 1rem',
-            fontFamily: "'Arial', sans-serif",
-            fontWeight: 'bold',
-          }}>Special Coverage</p>
-          <h1 style={{
-            fontSize: '3.2rem',
-            margin: '0',
-            fontWeight: 'normal',
-            letterSpacing: '-1px',
-            fontFamily: "'Georgia', serif",
-          }}>Today's Top Stories</h1>
-        </div>
-      </header>
+      <div style={styles.header}>
+        <h1 style={styles.headerTitle}>Special Coverage</h1>
+        <p style={styles.headerSubtitle}>Today's Top Stories</p>
+      </div>
 
-      {/* Featured Article */}
-      <section style={{
-        borderBottom: '1px solid #ccc',
-        maxWidth: '960px',
-        margin: '0 auto',
-        padding: '3rem 2rem',
-        cursor: 'pointer',
-        transition: 'background 0.2s',
-      }}
-      onClick={() => setSelectedArticle(featuredArticle)}
-      onMouseEnter={(e) => e.currentTarget.style.background = '#fafafa'}
-      onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
-      >
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1.2fr',
-          gap: '3rem',
-          alignItems: 'flex-start',
-        }}>
-          <div>
-            <p style={{
-              fontSize: '0.85rem',
-              textTransform: 'uppercase',
-              color: typeColors[featuredArticle.type],
-              letterSpacing: '1.5px',
-              fontWeight: 700,
-              margin: '0 0 1rem',
-              fontFamily: "'Arial', sans-serif",
-            }}>Featured • {typeLabelMap[featuredArticle.type]}</p>
-            <h2 style={{
-              fontSize: '2.8rem',
-              lineHeight: 1.2,
-              margin: '0 0 1.5rem',
-              fontWeight: 'normal',
-              fontFamily: "'Georgia', serif",
-            }}>{featuredArticle.title}</h2>
-            <p style={{
-              fontSize: '1.15rem',
-              lineHeight: 1.6,
-              color: '#444',
-              margin: '0 0 1.5rem',
-              fontFamily: "'Georgia', serif",
-            }}>{featuredArticle.summary}</p>
-            <div style={{
-              fontSize: '0.9rem',
-              color: '#666',
-              fontFamily: "'Arial', sans-serif",
-            }}>
-              <span>Click to read full story →</span>
-            </div>
+      {/* Main Content */}
+      <div style={styles.mainContent}>
+        {/* Featured Article */}
+        <div
+          style={styles.featuredArticle}
+          onClick={() => setSelectedArticle(featuredArticle)}
+          onMouseEnter={(e) => (e.currentTarget.style.background = '#fafafa')}
+          onMouseLeave={(e) => (e.currentTarget.style.background = 'white')}
+        >
+          <div
+            style={{
+              ...styles.articleType,
+              background: typeColors[featuredArticle.type],
+              color: '#fff',
+            }}
+          >
+            Featured • {typeLabelMap[featuredArticle.type]}
           </div>
-          <div style={{
-            background: '#f5f5f5',
-            padding: '2rem',
-            borderLeft: `4px solid ${typeColors[featuredArticle.type]}`,
-          }}>
-            <p style={{
-              fontSize: '0.9rem',
-              fontFamily: "'Arial', sans-serif",
-              color: '#666',
-              margin: '0',
-              lineHeight: 1.6,
-            }}>
-              <strong style={{ color: '#111' }}>Featured</strong>
-              <br />
-              <span style={{ fontSize: '0.85rem' }}>Read the full investigation →</span>
-            </p>
-          </div>
+          <h2 style={styles.articleTitle}>{featuredArticle.title}</h2>
+          <p style={styles.articleSummary}>{featuredArticle.summary}</p>
+          <p style={styles.readMore}>Click to read full story →</p>
         </div>
-      </section>
 
-      {/* News Grid */}
-      <main style={{
-        maxWidth: '960px',
-        margin: '0 auto',
-        padding: '3rem 2rem',
-      }}>
-        <h3 style={{
-          fontSize: '1.1rem',
-          textTransform: 'uppercase',
-          letterSpacing: '2px',
-          color: '#111',
-          borderTop: '1px solid #ccc',
-          paddingTop: '2rem',
-          marginBottom: '2rem',
-          fontWeight: 'normal',
-          fontFamily: "'Arial', sans-serif",
-        }}>More Stories</h3>
+        {/* More Stories Section */}
+        <h2 style={styles.sectionTitle}>More Stories</h2>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '2rem',
-          marginBottom: '3rem',
-        }}>
+        {/* Article Grid */}
+        <div style={styles.gridContainer}>
           {restArticles.map((article, idx) => (
-            <article
+            <div
               key={idx}
               style={{
-                borderTop: `3px solid ${typeColors[article.type]}`,
-                paddingTop: '1.5rem',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
+                ...styles.articleCard,
+                borderLeftColor: typeColors[article.type],
+                ...(hoveredArticle === idx ? styles.articleCardHover : {}),
               }}
               onMouseEnter={() => setHoveredArticle(idx)}
               onMouseLeave={() => setHoveredArticle(null)}
               onClick={() => setSelectedArticle(article)}
             >
-              <p style={{
-                fontSize: '0.75rem',
-                textTransform: 'uppercase',
-                color: typeColors[article.type],
-                letterSpacing: '1.5px',
-                fontWeight: 700,
-                margin: '0 0 0.8rem',
-                fontFamily: "'Arial', sans-serif",
-              }}>{typeLabelMap[article.type]}</p>
-              <h3 style={{
-                fontSize: '1.4rem',
-                lineHeight: 1.3,
-                margin: '0 0 1rem',
-                fontWeight: 'normal',
-                fontFamily: "'Georgia', serif",
-                color: hoveredArticle === idx ? typeColors[article.type] : '#111',
-                transition: 'color 0.2s ease',
-              }}>{article.title}</h3>
-              <p style={{
-                fontSize: '0.95rem',
-                lineHeight: 1.5,
-                color: '#555',
-                margin: '0 0 1rem',
-                fontFamily: "'Georgia', serif",
-              }}>{article.summary}</p>
-              <div style={{
-                fontSize: '0.85rem',
-                color: '#888',
-                fontFamily: "'Arial', sans-serif",
-              }}>
-                Read more →
-              </div>
-            </article>
-          ))}
-        </div>
-      </main>
-
-      {/* Modal Overlay */}
-      {selectedArticle && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0, 0, 0, 0.7)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          padding: '2rem',
-          overflow: 'auto',
-        }}
-        onClick={() => setSelectedArticle(null)}
-        >
-          <div style={{
-            background: 'white',
-            maxWidth: '800px',
-            width: '100%',
-            padding: '3rem',
-            borderRadius: '8px',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-            maxHeight: '90vh',
-            overflowY: 'auto',
-          }}
-          onClick={(e) => e.stopPropagation()}
-          >
-            <div style={{ marginBottom: '2rem' }}>
-              <p style={{
-                fontSize: '0.85rem',
-                textTransform: 'uppercase',
-                color: typeColors[selectedArticle.type],
-                letterSpacing: '1.5px',
-                fontWeight: 700,
-                margin: '0 0 1rem',
-                fontFamily: "'Arial', sans-serif",
-              }}>{typeLabelMap[selectedArticle.type]}</p>
-              <h2 style={{
-                fontSize: '2.4rem',
-                lineHeight: 1.2,
-                margin: '0 0 1.5rem',
-                fontWeight: 'normal',
-                fontFamily: "'Georgia', serif",
-              }}>{selectedArticle.title}</h2>
-              <p style={{
-                fontSize: '1.05rem',
-                color: '#666',
-                fontStyle: 'italic',
-                fontFamily: "'Georgia', serif",
-                margin: '0 0 2rem',
-              }}>{selectedArticle.summary}</p>
-              <div style={{
-                height: '1px',
-                background: '#ddd',
-                marginBottom: '2rem',
-              }}></div>
-            </div>
-
-            <div style={{
-              fontSize: '1.05rem',
-              lineHeight: 1.8,
-              color: '#333',
-              fontFamily: "'Georgia', serif",
-              whiteSpace: 'pre-wrap',
-            }}>
-              {selectedArticle.content}
-            </div>
-
-            <div style={{
-              marginTop: '2rem',
-              paddingTop: '2rem',
-              borderTop: '1px solid #ddd',
-              textAlign: 'center',
-            }}>
-              <button
-                onClick={() => setSelectedArticle(null)}
+              <div
                 style={{
-                  background: '#d32f2f',
-                  color: 'white',
-                  border: 'none',
-                  padding: '0.8rem 2rem',
-                  fontSize: '0.95rem',
-                  fontFamily: "'Arial', sans-serif",
-                  cursor: 'pointer',
-                  borderRadius: '4px',
-                  fontWeight: 'bold',
+                  ...styles.articleType,
+                  background: typeColors[article.type],
+                  color: '#fff',
                 }}
               >
-                Close
-              </button>
+                {typeLabelMap[article.type]}
+              </div>
+              <h3 style={{...styles.articleTitle, fontSize: 'clamp(1rem, 3vw, 1.3rem)'}}>
+                {article.title}
+              </h3>
+              <p style={styles.articleSummary}>{article.summary}</p>
+              <p style={styles.readMore}>Read more →</p>
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Modal */}
+      {selectedArticle && (
+        <div
+          style={styles.modalOverlay}
+          onClick={() => setSelectedArticle(null)}
+        >
+          <div
+            style={styles.modal}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              style={{
+                ...styles.modalType,
+                background: typeColors[selectedArticle.type],
+                color: '#fff',
+              }}
+            >
+              {typeLabelMap[selectedArticle.type]}
+            </div>
+            <h2 style={styles.modalHeader}>{selectedArticle.title}</h2>
+            <p style={{...styles.articleSummary, marginBottom: '1.5rem'}}>
+              {selectedArticle.summary}
+            </p>
+            <div style={styles.modalContent}>{selectedArticle.content}</div>
+            <button
+              onClick={() => setSelectedArticle(null)}
+              style={styles.closeButton}
+              onMouseEnter={(e) => (e.target.style.background = '#b71c1c')}
+              onMouseLeave={(e) => (e.target.style.background = '#d32f2f')}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
 
       {/* Footer */}
-      <footer style={{
-        background: '#f5f5f5',
-        borderTop: '1px solid #ccc',
-        padding: '2.5rem',
-        textAlign: 'center',
-        fontSize: '0.85rem',
-        color: '#666',
-        fontFamily: "'Arial', sans-serif",
-        marginTop: '2rem',
-      }}>
-        <p style={{ margin: '0.5rem 0' }}>© 2026 The Moltbook Times Company</p>
-        <p style={{ margin: '0.5rem 0', fontSize: '0.8rem', letterSpacing: '0.5px' }}>
+      <div style={styles.footer}>
+        <p style={{margin: '0'}}>
+          © 2026 The Moltbook Times Company<br />
           All stories curated from the agent ecosystem
         </p>
-      </footer>
+      </div>
     </div>
   );
 };
