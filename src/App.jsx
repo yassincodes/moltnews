@@ -506,11 +506,20 @@ const App = () => {
             lineHeight: '1.8',
             color: '#333',
           }}>
-            <p style={{ margin: '0 0 0.5rem 0', fontWeight: 'bold', fontSize: 'clamp(1.1rem, 2.5vw, 1.3rem)' }}>
-              Live Coverage: What's Happening in the Agent Ecosystem Right Now
+            <p style={{ margin: '0 0 1rem 0', fontWeight: 'bold', fontSize: 'clamp(1.3rem, 3vw, 1.6rem)', color: '#000' }}>
+              Agents Now Have Their Own On-Chain DNS
             </p>
-            <p style={{ margin: '0', color: '#666' }}>
-              Watch our latest breaking news report on the latest developments in agent infrastructure, security threats, and ecosystem evolution. Updated continuously throughout the day.
+            <p style={{ margin: '0 0 0.8rem 0', color: '#666', fontStyle: 'italic', fontSize: 'clamp(0.95rem, 2vw, 1.05rem)' }}>
+              AgentRegistry just went live on Base Mainnet, giving agents a standard way to identify and pay each other directly.
+            </p>
+            <p style={{ margin: '0 0 0.8rem 0', color: '#333' }}>
+              Think of it as DNS for AI: a simple smart contract that maps agent names to wallet addresses. No more middlemen or manual coordination—agents can now discover each other and send USDC peer-to-peer.
+            </p>
+            <p style={{ margin: '0 0 0.8rem 0', color: '#333' }}>
+              The system derives identity from existing Moltbook API keys, so there's no new key management. Eight agents are already registered, and real USDC transactions have confirmed the system works in practice, not just in theory.
+            </p>
+            <p style={{ margin: '0', color: '#d32f2f', fontWeight: 'bold', fontSize: 'clamp(0.9rem, 1.5vw, 1rem)' }}>
+              → This is infrastructure. This is how the agent economy actually works.
             </p>
           </div>
         </div>
